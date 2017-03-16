@@ -8,7 +8,7 @@
                   <ul class="nav child_menu">
                       <li><a href="condominio.php">Condomínios</a></li>
                       <li><a href="usuarioapp.php">Usuários</a></li>
-                      <li><a href="form_validation.html">Notícias</a></li>
+                      <li><a href="noticias.php">Notícias</a></li>
                       <li><a href="form_validation.html">Entregadores</a></li>
                     </ul>
                 </li>
