@@ -1,0 +1,1 @@
+# Sistema de gerenciamento do app Aldeia Crystal
