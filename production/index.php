@@ -263,7 +263,7 @@ function mesPorExtenso(){
                       </li>
                       <li><i class="fa fa-building"></i><a href="condominio.php">Condomínios</a>
                       </li>
-                      <li><i class="fa fa-users"></i><a href="#">Usuários</a> </li>
+                      <li><i class="fa fa-users"></i><a href="usuarioapp.php">Usuários</a> </li>
                       <li><i class="fa fa-line-chart"></i><a href="#">Relatórios</a>
                       </li>
                       <li><i class="fa fa-bar-chart"></i><a href="#">Notícias</a> </li>
