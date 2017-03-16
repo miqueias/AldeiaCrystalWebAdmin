@@ -97,74 +97,42 @@ include 'php/session.php';
                         </div>
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Rua <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Tel. Fixo <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="rua" name="rua" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="fixo" name="fixo" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Número <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Tel. Celular <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="numero" name="numero" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="celular" name="celuar" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Bairro <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Condomínio <span class="required">*</span>
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="bairro" name="bairro" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Cidade <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="cidade" name="cidade" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">UF <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="uf" type="text" name="uf" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label for="password" class="control-label col-md-3">CEP <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="text" type="cep" name="cep" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Síndico <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="sindico" type="text" name="sindico" class="form-control col-md-7 col-xs-12" required="required">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Telefone <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="tel" id="telefone" name="telefone" required="required" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Observações 
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="observacoes" name="observacoes" class="form-control col-md-7 col-xs-12"></textarea>
-                        </div>
-                      </div>
-                      <div class="item form-group">
-                        <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Entregador <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control">
-                            <option>Entregador A</option>
-                            <option>Entregador B</option>
-                            <option>Entregador C</option>
+                            <option>Condomínio A</option>
+                            <option>Condomínio B</option>
+                            <option>Condomínio C</option>
                           </select>
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Apartamento <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="apt" name="apt" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">Cód. Acesso <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="codigo_acesso" type="text" name="codigo_acesso" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="ln_solid"></div>
@@ -188,7 +156,7 @@ include 'php/session.php';
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Condomínios Cadastrados</h2>
+                    <h2>Usuários Cadastrados</h2>
                     <div class="clearfix"></div>
                   </div>
 
@@ -200,11 +168,10 @@ include 'php/session.php';
                             
                             <th class="column-title">Código </th>
                             <th class="column-title">Nome </th>
-                            <th class="column-title">Rua </th>
-                            <th class="column-title">Bairro </th>
-                            <th class="column-title">Cidade </th>
-                            <th class="column-title">Síndico </th>
-                            <th class="column-title">Telefone </th>
+                            <th class="column-title">Condomínio </th>
+                            <th class="column-title">Apt </th>
+                            <th class="column-title">Cod. Acesso </th>
+                            <th class="column-title">Status </th>
                             <th class="column-title no-link last"><span class="nobr"></span>
                             <th class="column-title no-link last"><span class="nobr"></span>
                             </th>
@@ -222,7 +189,6 @@ include 'php/session.php';
                             <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
                             <td class=" ">John Blank L</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$7.45</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -235,7 +201,6 @@ include 'php/session.php';
                             <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
                             </td>
                             <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
                             <td class=" ">Paid</td>
                             <td class="a-right a-right ">$741.20</td>
                             <td class=" last"><a href="#">Editar</a>
@@ -250,7 +215,6 @@ include 'php/session.php';
                             </td>
                             <td class=" ">Mike Smith</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$432.26</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -263,7 +227,6 @@ include 'php/session.php';
                             <td class=" ">121000204</td>
                             <td class=" ">Mike Smith</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$333.21</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -275,7 +238,6 @@ include 'php/session.php';
                             <td class=" ">May 24, 2014 11:47:56 PM </td>
                             <td class=" ">121000210</td>
                             <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
                             <td class=" ">Paid</td>
                             <td class="a-right a-right ">$7.45</td>
                             <td class=" last"><a href="#">Editar</a>
@@ -290,7 +252,6 @@ include 'php/session.php';
                             </td>
                             <td class=" ">John Blank L</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$741.20</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -303,7 +264,6 @@ include 'php/session.php';
                             <td class=" ">121000203</td>
                             <td class=" ">Mike Smith</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$432.26</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -315,7 +275,6 @@ include 'php/session.php';
                             <td class=" ">May 26, 2014 10:52:44 PM</td>
                             <td class=" ">121000204</td>
                             <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
                             <td class=" ">Paid</td>
                             <td class="a-right a-right ">$333.21</td>
                             <td class=" last"><a href="#">Editar</a>
@@ -330,7 +289,6 @@ include 'php/session.php';
                             <td class=" ">121000210</td>
                             <td class=" ">John Blank L</td>
                             <td class=" ">Paid</td>
-                            <td class=" ">Paid</td>
                             <td class="a-right a-right ">$7.45</td>
                             <td class=" last"><a href="#">Editar</a>
                             <td class=" last"><a href="#">Excluir</a>
@@ -341,7 +299,6 @@ include 'php/session.php';
                             <td class=" ">May 28, 2014 11:30:12 PM</td>
                             <td class=" ">121000208</td>
                             <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
                             <td class=" ">Paid</td>
                             <td class="a-right a-right ">$741.20</td>
                             <td class=" last"><a href="#">Editar</a>
