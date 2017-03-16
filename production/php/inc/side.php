@@ -9,7 +9,7 @@
                       <li><a href="condominio.php">Condomínios</a></li>
                       <li><a href="usuarioapp.php">Usuários</a></li>
                       <li><a href="noticias.php">Notícias</a></li>
-                      <li><a href="form_validation.html">Entregadores</a></li>
+                      <li><a href="entregadores.php">Entregadores</a></li>
                     </ul>
                 </li>
                 <li><a><i class="fa fa-bar-chart"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
