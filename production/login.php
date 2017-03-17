@@ -46,7 +46,7 @@ $err = $_GET["error"];
               <div>
                 
                 <input type="submit" class="btn btn-default submit" name="entrar" value="Entrar" />
-                <a class="reset_pass" href="#">Esqueceu a senha?</a>
+                <!--<a class="reset_pass" href="#">Esqueceu a senha?</a>-->
               </div>
 
               <div class="clearfix"></div>
