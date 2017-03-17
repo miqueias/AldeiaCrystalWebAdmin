@@ -7,10 +7,11 @@ $action = $_GET["a"];
 switch ($action) {
 	case 'login':
 		
-		$sql = "SELECT id_usuario, nome, usuario, status, id_tipo_usuario  
+		$sql = "SELECT id_usuario, nome, usuario, status, id_tipo_usuario, email, senha  
 		FROM usuario 
 		WHERE usuario = '".trim($_POST["login"])."' 
-		AND senha = '".trim($_POST["password"])."' ";
+		AND senha = '".trim($_POST["password"])."' 
+		AND status = 'A'";
 
 		$result = mysqli_query($mysqli, $sql);
 
@@ -24,6 +25,8 @@ switch ($action) {
 			$_SESSION['nome'] = $row['nome'];
 			$_SESSION['usuario'] = $row['usuario'];
 			$_SESSION['status'] = $row['status'];
+			$_SESSION['email'] = $row['email'];
+			$_SESSION['senha'] = $row['senha'];
 			$_SESSION['id_tipo_usuario'] = $row['id_tipo_usuario'];
 
 			header("Location: ../index.php");

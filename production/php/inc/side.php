@@ -1,6 +1,6 @@
 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>General</h3>
+                <h3></h3>
                 <ul class="nav side-menu">
                 <li><a href="index.php"><i class="fa fa-home"></i> Home </span></a></li>
                 <li><a href="pedidos.php"><i class="fa fa-shopping-cart"></i> Pedidos </a></li>
@@ -20,6 +20,7 @@
                       <li><a href="#">Pedidos por Usuário</a></li>
                     </ul>
                 </li>
+                <li><a href="configuracoes.php"><i class="fa fa-gears"></i> Confirurações </a></li>
                 
                   
               </div>
