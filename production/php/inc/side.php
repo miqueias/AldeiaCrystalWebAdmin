@@ -3,7 +3,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                 <li><a href="index.php"><i class="fa fa-home"></i> Home </span></a></li>
-                <li><a><i class="fa fa-shopping-cart"></i> Pedidos </a></li>
+                <li><a href="pedidos.php"><i class="fa fa-shopping-cart"></i> Pedidos </a></li>
                 <li><a><i class="fa fa-pencil-square-o"></i> Cadastros <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
                       <li><a href="condominio.php">Condomínios</a></li>
@@ -14,10 +14,10 @@
                 </li>
                 <li><a><i class="fa fa-bar-chart"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                      <li><a href="form.html">Relatório A</a></li>
-                      <li><a href="form_advanced.html">Relatório B</a></li>
-                      <li><a href="form_validation.html">Relatório C</a></li>
-                      <li><a href="form_validation.html">Relatório D</a></li>
+                      <li><a href="#">Financeiro</a></li>
+                      <li><a href="#">Rota de Entrega</a></li>
+                      <li><a href="#">Pedidos por Condomínio</a></li>
+                      <li><a href="#">Pedidos por Usuário</a></li>
                     </ul>
                 </li>
                 

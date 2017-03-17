@@ -259,7 +259,7 @@ function mesPorExtenso(){
                 <div class="x_content">
                   <div class="dashboard-widget-content">
                     <ul class="quick-list">
-                      <li><i class="fa fa-shopping-cart"></i><a href="#">Pedidos</a>
+                      <li><i class="fa fa-shopping-cart"></i><a href="pedidos.php">Pedidos</a>
                       </li>
                       <li><i class="fa fa-building"></i><a href="condominio.php">Condomínios</a>
                       </li>
