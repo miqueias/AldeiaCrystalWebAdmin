@@ -1,6 +1,33 @@
 <?php 
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
+
+$mode = "add_usuarioapp";
+
+if ($_GET['id'] != "") {
+  $sql = "SELECT id_usuario_app, nome, telefone_fixo, 
+                  telefone_celular, apt, codigo_acesso, 
+                  status, condominio_id 
+        FROM usuario_app
+        WHERE id_usuario_app = ".$_GET['id'];
+
+  $result = mysqli_query($mysqli, $sql);
+  
+  while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+    
+    $id = $row["id_usuario_app"];
+    $nome = utf8_encode(utf8_decode($row["nome"]));
+    $telefone_fixo = utf8_encode(utf8_decode($row["telefone_fixo"]));
+    $telefone_celular = utf8_encode(utf8_decode($row["telefone_celular"]));
+    $apt = utf8_encode(utf8_decode($row["apt"]));
+    $codigo_acesso = utf8_encode(utf8_decode($row["codigo_acesso"]));
+    $status = $row["status"];
+    $condominio_id = $row["condominio_id"];
+    $mode = "edit_usuarioapp";
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,7 +110,7 @@ include 'php/session.php';
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <form class="form-horizontal form-label-left" novalidate name="form" method="post" action="php/facade.php?a=<?php echo $mode; ?>">
 
                       <!--<p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>-->
                       </p>
@@ -93,31 +120,42 @@ include 'php/session.php';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="nome" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" required="required" type="text">
+                          <input id="nome" class="form-control col-md-7 col-xs-12" name="nome" required="required" type="text" value="<?php echo $nome; ?>">
+                          <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Tel. Fixo <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="fixo" name="fixo" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="telefone_fixo" name="telefone_fixo" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $telefone_fixo; ?>">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Tel. Celular <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="celular" name="celuar" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="telefone_celular" name="telefone_celular" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $telefone_celular; ?>">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Condomínio <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select class="form-control">
-                            <option>Condomínio A</option>
-                            <option>Condomínio B</option>
-                            <option>Condomínio C</option>
+                          <select class="form-control" name="condominio_id">
+                            <?php 
+                              $sql = "SELECT id_condominio, nome FROM condominio ORDER BY nome ASC";
+
+                              $result = mysqli_query($mysqli, $sql);
+
+                              while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+                                if ($row['id_condominio'] == $condominio_id) {
+                                  echo "<option value=\"".$row['id_condominio']."\" selected>".($row['id_condominio'] * 1000). " - ".$row['nome']."</option>";
+                                } else {
+                                  echo "<option value=\"".$row['id_condominio']."\">".($row['id_condominio'] * 1000). " - " .$row['nome']."</option>";
+                                }
+                              }
+                            ?>
                           </select>
                         </div>
                       </div>
@@ -125,20 +163,13 @@ include 'php/session.php';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="website">Apartamento <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="apt" name="apt" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="apt" name="apt" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $apt; ?>">
                         </div>
                       </div>
-                      <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">Cód. Acesso <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="codigo_acesso" type="text" name="codigo_acesso" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="ln_solid"></div>
+                      
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <!--<button type="submit" class="btn btn-primary">Cancelar</button>-->
+                          <button type="button" class="btn btn-primary" onclick="window.location.href='usuarioapp.php'">Novo</button>
                           <button id="send" type="submit" class="btn btn-success">Salvar</button>
                         </div>
                       </div>
@@ -148,6 +179,7 @@ include 'php/session.php';
               </div>
             </div>
           </div>
+          
 
           <!--table-->
             <div class="row">
@@ -170,146 +202,65 @@ include 'php/session.php';
                             <th class="column-title">Nome </th>
                             <th class="column-title">Condomínio </th>
                             <th class="column-title">Apt </th>
-                            <th class="column-title">Cod. Acesso </th>
+                            <th class="column-title">Celular </th>
                             <th class="column-title">Status </th>
                             <th class="column-title no-link last"><span class="nobr"></span>
+                            </th>
                             <th class="column-title no-link last"><span class="nobr"></span>
                             </th>
                             <th class="bulk-actions" colspan="7">
                               <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
                             </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                            
                           </tr>
                         </thead>
 
                         <tbody>
-                          <tr class="even pointer">
-                           
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 24, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 24, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 24, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 26, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                            </td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 26, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$432.26</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 26, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" ">Mike Smith</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$333.21</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
+                        <?php
+                          $sql = "SELECT u.id_usuario_app, u.nome, u.telefone_fixo, 
+                                          u.telefone_celular, u.apt, u.codigo_acesso, 
+                                          u.status, u.condominio_id, u.status,
+                                          c.nome as nome_condominio, c.id_condominio 
+                                  FROM usuario_app u, condominio c 
+                                  WHERE c.id_condominio = u.condominio_id";
 
-                          <tr class="even pointer">
+                          $result = mysqli_query($mysqli, $sql);
+                          $i = 0;
+
+                          while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+
+                            if ($i % 2 == 0) {
+                              $class = "even pointe";
+                            } else {
+                              $class = "odd pointe";
+                            }
                             
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 27, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$7.45</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 28, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208</td>
-                            <td class=" ">John Blank L</td>
-                            <td class=" ">Paid</td>
-                            <td class="a-right a-right ">$741.20</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
+                            if ($row["status"] == "A") {
+                              $status = "Ativo";
+                            } else {
+                              $status = "Inativo";
+                            }
+
+                            echo '<tr class="'.$class.'">
+                                    <td class=" ">'.$row["id_usuario_app"].'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["nome"])).'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["nome_condominio"])).'</td>
+                                    <td class=" ">'.$row["apt"].'</td>
+                                    <td class=" ">'.$row["telefone_celular"].'</td>
+                                    <td class=" ">'.$status.'</td>
+                                    <td class=" last"><a href="usuarioapp.php?id='.$row["id_usuario_app"].'">Editar</a></td>
+                                    <td class=" last"><a href="#">Suspender</a></td>
+                                  </tr>';
+                            
+                            $i++;
+                          }
+                        ?>
                         </tbody>
                       </table>
                     </div>
-              
-            
                   </div>
                 </div>
               </div>

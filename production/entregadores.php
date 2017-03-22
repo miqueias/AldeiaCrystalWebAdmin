@@ -1,6 +1,23 @@
 <?php 
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
+
+$mode = "add_entregador";
+
+if ($_GET['id'] != "") {
+  $sql = "SELECT id_entregador, nome, cpf FROM entregador WHERE id_entregador = ".$_GET['id'];
+
+  $result = mysqli_query($mysqli, $sql);
+  
+  while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+    $nome = $row["nome"];
+    $cpf = $row["cpf"];
+    $id = $row["id_entregador"];
+    $mode = "edit_entregador";
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,7 +100,7 @@ include 'php/session.php';
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <form class="form-horizontal form-label-left" novalidate name="form" method="post" action="php/facade.php?a=<?php echo $mode; ?>" enctype="multipart/form-data">
 
                       <!--<p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>-->
                       </p>
@@ -93,21 +110,30 @@ include 'php/session.php';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="nome" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" required="required" type="text">
+                          <input id="nome" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" required="required" type="text" value="<?php echo $nome; ?>">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">CPF <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="cpf" class="form-control col-md-7 col-xs-12" name="cpf" required="required" type="text">
+                          <input id="cpf" class="form-control col-md-7 col-xs-12" name="cpf" required="required" type="text" value="<?php echo $cpf; ?>">
+
+                          <input type="hidden" name="id" id="id" value="<?php echo $id; ?>" />
+                        </div>
+                      </div>
+                      <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Foto
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input id="arquivo" class="form-control col-md-7 col-xs-12" name="arquivo" type="file">
                         </div>
                       </div>
                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <!--<button type="submit" class="btn btn-primary">Cancelar</button>-->
+                          <button type="button" class="btn btn-primary" onclick="window.location.href='entregadores.php'">Novo</button>
                           <button id="send" type="submit" class="btn btn-success">Salvar</button>
                         </div>
                       </div>
@@ -148,99 +174,31 @@ include 'php/session.php';
                         </thead>
 
                         <tbody>
-                          <tr class="even pointer">
-                           
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 24, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 24, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 24, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 26, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 26, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 26, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
 
-                          <tr class="even pointer">
+                        <?php
+                          $sql = "SELECT id_entregador, nome, cpf FROM entregador";
+
+                          $result = mysqli_query($mysqli, $sql);
+                          $i = 0;
+
+                          while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+
+                            if ($i % 2 == 0) {
+                              $class = "even pointe";
+                            } else {
+                              $class = "odd pointe";
+                            }
+
+                            echo '<tr class="'.$class.'">
+                                <td class=" ">'.$row["id_entregador"].'</td>
+                                <td class=" ">'.utf8_encode(utf8_decode($row["nome"])).'</td>
+                                <td class=" ">'.$row["cpf"].'</td>
+                                <td class=" last"><a href="entregadores.php?id='.$row["id_entregador"].'">Editar</a>
+                              </tr>';
                             
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 27, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 28, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
+                            $i++;
+                          }
+                        ?>
                         </tbody>
                       </table>
                     </div>
