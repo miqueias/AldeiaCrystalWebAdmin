@@ -148,7 +148,7 @@ switch ($action) {
 			$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		    $charactersLength = strlen($characters);
 		    $randomString = '';
-		    for ($i = 0; $i < $length; $i++) {
+		    for ($i = 0; $i < 10; $i++) {
 		        $randomString .= $characters[rand(0, $charactersLength - 1)];
 		    }
 			$sql = "INSERT INTO usuario_app (nome, telefone_fixo, telefone_celular, apt, codigo_acesso, status, condominio_id) 
@@ -157,20 +157,72 @@ switch ($action) {
 			$result = mysqli_query($mysqli, $sql);
 			echo "<script>alert('Cadastro realizado com sucesso!');window.location.href='../usuarioapp.php';</script>";
 			break;
+
+		case 'edit_usuarioapp':
+			
+			$sql = "UPDATE usuario_app 
+					SET nome = '".$_POST["nome"]."', 
+					telefone_fixo = '".$_POST["telefone_fixo"]."', 
+					telefone_celular = '".$_POST["telefone_celular"]."', 
+					apt = '".$_POST["apt"]."', 
+					condominio_id = ".$_POST["condominio_id"]."
+					WHERE id_usuario_app = ".$_POST["id"];
+
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../usuarioapp.php';</script>";
+
+			break;
+
+		case 'del_usuarioapp':
+			$sql = "UPDATE usuario_app 
+					SET status = 'I' 
+					WHERE id_usuario_app = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../usuarioapp.php';</script>";
+			break;
+
+		case 'active_usuarioapp':
+			$sql = "UPDATE usuario_app 
+					SET status = 'A' 
+					WHERE id_usuario_app = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../usuarioapp.php';</script>";
+			break;
+
+		case 'add_noticia':
+			$sql = "INSERT INTO noticia (titulo, descricao, status) 
+					VALUES ('".$_POST["titulo"]."', '".$_POST["descricao"]."', 'A')";
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Cadastro realizado com sucesso!');window.location.href='../noticias.php';</script>";
+			break;
+
+		case 'edit_noticia':
+			$sql = "UPDATE noticia 
+					SET titulo = '".$_POST["titulo"]."', 
+					descricao = '".$_POST["descricao"]."' 
+					WHERE id_noticia = ". $_POST["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../noticias.php';</script>";
+			break;
+
+		case 'del_noticia':
+			$sql = "UPDATE noticia 
+					SET status = 'I' 
+					WHERE id_noticia = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../noticias.php';</script>";
+			break;
+
+		case 'active_noticia':
+			$sql = "UPDATE noticia 
+					SET status = 'A' 
+					WHERE id_noticia = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../noticias.php';</script>";
+			break;
 	
 	default:
 		# code...
 		break;
 }
-
-function generateRandomString($length) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $charactersLength = strlen($characters);
-    $randomString = '';
-    for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
-    }
-    return $randomString;
-}
-
 ?>

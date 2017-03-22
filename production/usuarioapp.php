@@ -200,6 +200,7 @@ if ($_GET['id'] != "") {
                             
                             <th class="column-title">Código </th>
                             <th class="column-title">Nome </th>
+                            <th class="column-title">Código do Cond. </th>
                             <th class="column-title">Condomínio </th>
                             <th class="column-title">Apt </th>
                             <th class="column-title">Celular </th>
@@ -240,19 +241,23 @@ if ($_GET['id'] != "") {
                             
                             if ($row["status"] == "A") {
                               $status = "Ativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=del_usuarioapp&id='.$row["id_usuario_app"].'">Suspender</a></td>';
                             } else {
                               $status = "Inativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=active_usuarioapp&id='.$row["id_usuario_app"].'">Ativar</a></td>';
                             }
 
                             echo '<tr class="'.$class.'">
                                     <td class=" ">'.$row["id_usuario_app"].'</td>
                                     <td class=" ">'.utf8_encode(utf8_decode($row["nome"])).'</td>
+                                    <td class=" ">'.($row["condominio_id"] * 1000).'</td>
                                     <td class=" ">'.utf8_encode(utf8_decode($row["nome_condominio"])).'</td>
                                     <td class=" ">'.$row["apt"].'</td>
                                     <td class=" ">'.$row["telefone_celular"].'</td>
                                     <td class=" ">'.$status.'</td>
+                                    '.$tr.'
                                     <td class=" last"><a href="usuarioapp.php?id='.$row["id_usuario_app"].'">Editar</a></td>
-                                    <td class=" last"><a href="#">Suspender</a></td>
+                                    
                                   </tr>';
                             
                             $i++;

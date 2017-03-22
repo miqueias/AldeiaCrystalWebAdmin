@@ -1,6 +1,26 @@
 <?php 
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
+
+$mode = "add_noticia";
+
+if ($_GET['id'] != "") {
+  $sql = "SELECT id_noticia, titulo, descricao, status 
+          FROM noticia    
+          WHERE id_noticia = ".$_GET['id'];
+
+  $result = mysqli_query($mysqli, $sql);
+  
+  while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+    $id_noticia = $row["id_noticia"];
+    $titulo = $row["titulo"];
+    $descricao = $row["descricao"];
+    $status =  $row["status"];
+    $mode = "edit_noticia";
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,7 +103,7 @@ include 'php/session.php';
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <form class="form-horizontal form-label-left" novalidate name="form" method="post" action="php/facade.php?a=<?php echo $mode; ?>">
 
                       <!--<p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>-->
                       </p>
@@ -93,21 +113,22 @@ include 'php/session.php';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Título <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="nome" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" required="required" type="text">
+                          <input id="titulo" class="form-control col-md-7 col-xs-12" name="titulo" required="required" type="text" value="<?php echo $titulo; ?>">
+                          <input type="hidden" name="id" id="id" value="<?php echo $id_noticia; ?>" />
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Descrição <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea required="required" id="descricao" name="descricao" rows="10" cols="5" class="form-control col-md-7 col-xs-12"></textarea>
+                          <textarea required="required" id="descricao" name="descricao" rows="10" cols="5" class="form-control col-md-7 col-xs-12"><?php echo $descricao; ?></textarea>
                         </div>
                       </div>
                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <!--<button type="submit" class="btn btn-primary">Cancelar</button>-->
+                          <button type="button" class="btn btn-primary" onclick="window.location.href='noticias.php'">Novo</button>
                           <button id="send" type="submit" class="btn btn-success">Salvar</button>
                         </div>
                       </div>
@@ -138,6 +159,7 @@ include 'php/session.php';
                             <th class="column-title">Código </th>
                             <th class="column-title">Título </th>
                             <th class="column-title">Descrição </th>
+                            <th class="column-title">Status </th>
                             <th class="column-title no-link last"><span class="nobr"></span>
                             <th class="column-title no-link last"><span class="nobr"></span>
                             </th>
@@ -148,99 +170,40 @@ include 'php/session.php';
                         </thead>
 
                         <tbody>
-                          <tr class="even pointer">
-                           
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 23, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210 <i class="success fa fa-long-arrow-up"></i></td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 23, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 24, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203 <i class="success fa fa-long-arrow-up"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 24, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 24, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 26, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208 <i class="error fa fa-long-arrow-down"></i>
-                            </td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="even pointer">
-                            
-                            <td class=" ">121000038</td>
-                            <td class=" ">May 26, 2014 10:55:33 PM</td>
-                            <td class=" ">121000203</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            
-                            <td class=" ">121000037</td>
-                            <td class=" ">May 26, 2014 10:52:44 PM</td>
-                            <td class=" ">121000204</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
+                        <?php
+                          $sql = "SELECT id_noticia, titulo, descricao, status FROM noticia";
 
-                          <tr class="even pointer">
+                          $result = mysqli_query($mysqli, $sql);
+                          $i = 0;
+
+                          while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+
+                            if ($i % 2 == 0) {
+                              $class = "even pointe";
+                            } else {
+                              $class = "odd pointe";
+                            }
                             
-                            <td class=" ">121000040</td>
-                            <td class=" ">May 27, 2014 11:47:56 PM </td>
-                            <td class=" ">121000210</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
-                          <tr class="odd pointer">
-                            <td class=" ">121000039</td>
-                            <td class=" ">May 28, 2014 11:30:12 PM</td>
-                            <td class=" ">121000208</td>
-                            <td class=" last"><a href="#">Editar</a>
-                            <td class=" last"><a href="#">Excluir</a>
-                            </td>
-                          </tr>
+                            if ($row["status"] == "A") {
+                              $status = "Ativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=del_noticia&id='.$row["id_noticia"].'">Suspender</a></td>';
+                            } else {
+                              $status = "Inativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=active_noticia&id='.$row["id_noticia"].'">Ativar</a></td>';
+                            }
+
+                            echo '<tr class="'.$class.'">
+                                    <td class=" ">'.$row["id_noticia"].'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["titulo"])).'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["descricao"])).'</td>
+                                    <td class=" ">'.$status.'</td>
+                                    '.$tr.'
+                                    <td class=" last"><a href="noticias.php?id='.$row["id_noticia"].'">Editar</a></td>
+                                  </tr>';
+                            
+                            $i++;
+                          }
+                        ?>
                         </tbody>
                       </table>
                     </div>
