@@ -14,8 +14,8 @@ if ($_GET['id'] != "") {
   
   while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
     $id_noticia = $row["id_noticia"];
-    $titulo = $row["titulo"];
-    $descricao = $row["descricao"];
+    $titulo = utf8_encode(utf8_decode($row["titulo"]));
+    $descricao = utf8_encode(utf8_decode($row["descricao"]));
     $status =  $row["status"];
     $mode = "edit_noticia";
   }

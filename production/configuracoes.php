@@ -1,6 +1,28 @@
 <?php 
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
+
+$mode = "add_usuario";
+
+if ($_GET['id'] != "") {
+  $sql = "SELECT id_usuario, nome, usuario, senha, email, status, id_tipo_usuario
+         FROM usuario
+         WHERE id_usuario = ".$_GET['id'];
+
+  $result = mysqli_query($mysqli, $sql);
+  
+  while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+    $id_usuario = $row["id_usuario"];
+    $nome = utf8_encode(utf8_decode($row["nome"]));
+    $usuario = utf8_encode(utf8_decode($row["usuario"]));
+    $senha =  utf8_encode(utf8_decode($row["senha"]));
+    $email =  $row["email"];
+    $status =  $row["status"];
+    $mode = "edit_usuario";
+  }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -83,7 +105,7 @@ include 'php/session.php';
                   </div>
                   <div class="x_content">
 
-                    <form class="form-horizontal form-label-left" novalidate>
+                    <form class="form-horizontal form-label-left" novalidate name="form" method="post" action="php/facade.php?a=<?php echo $mode; ?>">
 
                       <!--<p>For alternative validation library <code>parsleyJS</code> check out in the <a href="form.html">form page</a>-->
                       </p>
@@ -93,35 +115,36 @@ include 'php/session.php';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="nome" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="nome" required="required" type="text" value="<?php echo utf8_encode($_SESSION['nome']); ?>">
+                          <input id="nome" class="form-control col-md-7 col-xs-12" name="nome" required="required" type="text" value="<?php echo $nome; ?>">
+                          <input type="hidden" name="id" id="id" value="<?php echo $id_usuario; ?>" />
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Usuário 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="usuario" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="usuario" readonly="readonly" type="text" value="<?php echo $_SESSION['usuario']; ?>">
+                          <input id="usuario" class="form-control col-md-7 col-xs-12" name="usuario" type="text" value="<?php echo $usuario; ?>">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">E-mail <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="email" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="email" required="required" type="email" value="<?php echo $_SESSION['email']; ?>">
+                          <input id="email" class="form-control col-md-7 col-xs-12" name="email" required="required" type="email" value="<?php echo $email; ?>">
                         </div>
                       </div>
                       <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Senha <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="senha" class="form-control col-md-7 col-xs-12" name="senha" required="required" type="text" value="<?php echo $_SESSION['senha']; ?>">
+                          <input id="senha" class="form-control col-md-7 col-xs-12" name="senha" required="required" type="text" value="<?php echo $senha; ?>">
                         </div>
                       </div>
                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-md-offset-3">
-                          <!--<button type="submit" class="btn btn-primary">Cancelar</button>-->
+                          <button type="button" class="btn btn-primary" onclick="window.location.href='configuracoes.php'">Novo</button>
                           <button id="send" type="submit" class="btn btn-success">Salvar</button>
                         </div>
                       </div>
@@ -133,6 +156,83 @@ include 'php/session.php';
           </div>
 
           <!--table-->
+          <div class="row">
+              <div class="clearfix"></div>
+
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Usuários Cadastrados</h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+                    <div class="table-responsive">
+                      <table class="table table-striped jambo_table bulk_action">
+                        <thead>
+                          <tr class="headings">
+                            
+                            <th class="column-title">Código </th>
+                            <th class="column-title">Nome </th>
+                            <th class="column-title">Usuário </th>
+                            <th class="column-title">Email </th>
+                            <th class="column-title">Status </th>
+                            <th class="column-title no-link last"><span class="nobr"></span>
+                            <th class="column-title no-link last"><span class="nobr"></span>
+                            </th>
+                            <th class="bulk-actions" colspan="7">
+                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
+                            </th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                        <?php
+                          $sql = "SELECT id_usuario, nome, usuario, senha, email, status, id_tipo_usuario
+                                  FROM usuario";
+
+                          $result = mysqli_query($mysqli, $sql);
+                          $i = 0;
+
+                          while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+
+                            if ($i % 2 == 0) {
+                              $class = "even pointe";
+                            } else {
+                              $class = "odd pointe";
+                            }
+                            
+                            if ($row["status"] == "A") {
+                              $status = "Ativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=del_usuario&id='.$row["id_usuario"].'">Suspender</a></td>';
+                            } else {
+                              $status = "Inativo";
+                              $tr = '<td class=" last"><a href="php/facade.php?a=active_usuario&id='.$row["id_usuario"].'">Ativar</a></td>';
+                            }
+
+                            echo '<tr class="'.$class.'">
+                                    <td class=" ">'.$row["id_usuario"].'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["nome"])).'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["usuario"])).'</td>
+                                    <td class=" ">'.utf8_encode(utf8_decode($row["email"])).'</td>
+                                    <td class=" ">'.$status.'</td>
+                                    '.$tr.'
+                                    <td class=" last"><a href="configuracoes.php?id='.$row["id_usuario"].'">Editar</a></td>
+                                  </tr>';
+                            
+                            $i++;
+                          }
+                        ?>
+                        </tbody>
+                      </table>
+                    </div>
+              
+            
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
             
         <!-- /page content -->
 

@@ -220,7 +220,48 @@ switch ($action) {
 			$result = mysqli_query($mysqli, $sql);
 			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../noticias.php';</script>";
 			break;
-	
+
+		case 'add_usuario':
+
+			$sql = "SELECT * FROM usuario WHERE TRIM(usuario) = '".trim($_POST["usuario"])."'";
+			$result = mysqli_query($mysqli, $sql);
+			$i = mysqli_num_rows($result);
+
+			if ($i > 0) {
+				echo "<script>alert('Nome de usuario ja esta em uso!');window.location.href='../configuracoes.php';</script>";
+			} else {
+				$sql = "INSERT INTO usuario (nome, usuario, senha, email, status, id_tipo_usuario) 
+					VALUES ('".$_POST["nome"]."', '".$_POST["usuario"]."', '".$_POST["senha"]."', '".$_POST["email"]."', 'A', '1')";
+				$result = mysqli_query($mysqli, $sql);
+				echo "<script>alert('Cadastro realizado com sucesso!');window.location.href='../configuracoes.php';</script>";
+			}
+			break;
+
+		case 'edit_usuario':
+			$sql = "UPDATE usuario SET 
+				nome = '".$_POST["nome"]."', 
+				senha = '".$_POST["senha"]."', 
+				email = '".$_POST["email"]."' 
+				WHERE id_usuario = ".$_POST["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../configuracoes.php';</script>";	
+			break;
+
+		case 'del_usuario':
+			$sql = "UPDATE usuario
+					SET status = 'I' 
+					WHERE id_usuario = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../configuracoes.php';</script>";
+			break;
+
+		case 'active_usuario':
+			$sql = "UPDATE usuario 
+					SET status = 'A' 
+					WHERE id_usuario = ". $_GET["id"];
+			$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../configuracoes.php';</script>";
+			break;
 	default:
 		# code...
 		break;

@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
 
 function mesPorExtenso(){
   switch (date("m")) {
@@ -20,6 +21,31 @@ function mesPorExtenso(){
 
  echo $mes;
 }
+
+$sql = "SELECT * FROM usuario_app";
+$result = mysqli_query($mysqli, $sql);
+$contUsuarioApp = mysqli_num_rows($result);
+
+$sql = "SELECT * FROM pedido WHERE MONTH(data_hora) = MONTH(NOW()) AND status = 'A'";
+$result = mysqli_query($mysqli, $sql);
+$pedidosAberto = mysqli_num_rows($result);
+
+$sql = "SELECT * FROM pedido WHERE MONTH(data_hora) = MONTH(NOW()) AND status = 'E'";
+$result = mysqli_query($mysqli, $sql);
+$pedidosEntrege = mysqli_num_rows($result);
+
+$sql = "SELECT * FROM condominio";
+$result = mysqli_query($mysqli, $sql);
+$contCondominio = mysqli_num_rows($result);
+
+$sql = "SELECT * FROM pedido WHERE MONTH(data_hora) = MONTH(NOW()) AND status = 'E' and qtd_5l > 0";
+$result = mysqli_query($mysqli, $sql);
+$pedidosCinco = mysqli_num_rows($result);
+
+$sql = "SELECT * FROM pedido WHERE MONTH(data_hora) = MONTH(NOW()) AND status = 'E' and qtd_10l > 0";
+$result = mysqli_query($mysqli, $sql);
+$pedidosDez = mysqli_num_rows($result);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -86,11 +112,11 @@ function mesPorExtenso(){
           <div class="row tile_count">
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total de Usuários</span>
-              <div class="count green">0</div>
+              <div class="count green"><?php echo $contUsuarioApp; ?></div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de Vendas</span>
-              <div class="count">0</div>
+              <span class="count_top"><i class="fa fa-user"></i> Total de Pedidos</span>
+              <div class="count"><?php echo $pedidosAberto;?></div>
               <span class="count_bottom">Mês de <?php mesPorExtenso(); ?></span>
             </div>
             <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -99,13 +125,13 @@ function mesPorExtenso(){
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
             </div>-->
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de Pedidos</span>
-              <div class="count green">0</div>
+              <span class="count_top"><i class="fa fa-user"></i> Total de Entregas</span>
+              <div class="count green"><?php echo $pedidosEntrege;?></div>
               <span class="count_bottom">Mês de <?php mesPorExtenso(); ?></span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total de Condomínios</span>
-              <div class="count">0</div>
+              <div class="count"><?php echo $contCondominio; ?></div>
               <!--<span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>-->
             </div>
             <!--<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -142,24 +168,24 @@ function mesPorExtenso(){
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320">
                 <div class="x_title">
-                  <h2>Últimos 30 Dias</h2>
+                  <h2>Entregas em <?php echo mesPorExtenso(); ?></h2>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <h4>Vendas por Tipo de Garrafão</h4>
+                  <h4>Entregas por Tipo de Garrafão</h4>
                   <div class="widget_summary">
                     <div class="w_left w_25">
                       <span>5 Litros</span>
                     </div>
                     <div class="w_center w_55">
                       <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                          <span class="sr-only">0%</span>
+                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="<?php echo "width:".$pedidosCinco."%;"; ?>">
+                          <span class="sr-only"><?php echo $pedidosCinco; ?></span>
                         </div>
                       </div>
                     </div>
                     <div class="w_right w_20">
-                      <span>0</span>
+                      <span><?php echo $pedidosCinco; ?></span>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -170,13 +196,13 @@ function mesPorExtenso(){
                     </div>
                     <div class="w_center w_55">
                       <div class="progress">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                          <span class="sr-only">0%</span>
+                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="<?php echo "width:".$pedidosDez."%;"; ?>">
+                          <span class="sr-only"><?php echo $pedidosDez; ?> </span>
                         </div>
                       </div>
                     </div>
                     <div class="w_right w_20">
-                      <span>0</span>
+                      <span><?php echo $pedidosDez; ?></span>
                     </div>
                     <div class="clearfix"></div>
                   </div>
@@ -187,7 +213,7 @@ function mesPorExtenso(){
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="x_panel tile fixed_height_320 overflow_hidden">
                 <div class="x_title">
-                  <h2>Últimos 30 Dias</h2>
+                  <h2>Entregas em <?php echo mesPorExtenso(); ?></h2>
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
