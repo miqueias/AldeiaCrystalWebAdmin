@@ -2,19 +2,6 @@
 ini_set('display_errors', 0);
 include 'php/session.php';
 include 'php/connection.php';
-
-$sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qtd_10l, pedido.troco, DATE_FORMAT(pedido.data_hora, '%d/%m/%Y') as data_hora, pedido.status, condominio.nome as nome_condominio, usuario_app.nome as nome_cliente, usuario_app.apt, 
-    condominio.rua, condominio.numero, condominio.bairro, condominio.cep, condominio.cidade, condominio.uf,
-    condominio.referencia, condominio.nome_sindico, condominio.telefone, entregador.nome as nome_entregador
-      FROM pedido, condominio, usuario_app, entregador
-      WHERE usuario_app.condominio_id = condominio.id_condominio
-      AND usuario_app.id_usuario_app = pedido.id_usuario_app
-      AND condominio.id_entregador = entregador.id_entregador
-      AND entregador.id_entregador = ".$_GET["id_entregador"]. "
-      AND pedido.status = 'P' 
-      ORDER BY condominio.nome ASC, pedido.id_pedido DESC";
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -36,6 +23,22 @@ $sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qt
     
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <script type="text/javascript">
+      function showRota() {
+        var idEntregador;
+        idEntregador = $("#entregador").val();
+        //alert(idEntregador);
+        window.location.href = "rel_rota.php?id_entregador="+idEntregador;
+      }
+
+      function printRota() {
+        var idEntregador;
+        //alert(idEntregador);
+        window.open("print_rota.php?id_entregador="+<?php echo $_GET["id_entregador"]; ?>, '_blank');
+      }
+
+    </script>
   </head>
 
   <body class="nav-md">
@@ -91,8 +94,24 @@ $sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qt
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <!--<h2>Form validation <small>sub title</small></h2>-->
-                    
+                    <h2>Entregador: </h2><br />   
+                        <select class="form-control" name="entregador" id="entregador">
+                          <option value="">-- Selecione o entregador --</option>
+                          <?php 
+
+                            $sql = "SELECT id_entregador, nome, cpf FROM entregador ORDER BY nome ASC";
+
+                            $result = mysqli_query($mysqli, $sql);
+                            $i = 0;
+
+                            while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+                              echo "<option value=\"".$row['id_entregador']."\">".$row['nome']."</option>";
+                            }
+                          ?>
+                        </select>
+                        <br />
+                        <button type="button" class="btn btn-primary" onclick="showRota();">Exibir Rota</button>
+                          <button id="send" type="button" class="btn btn-success" onclick="printRota();">Imprimir Rota</button>
                     <div class="clearfix"></div>
                   </div>
                   
@@ -116,24 +135,28 @@ $sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qt
                           <tr class="headings">
                             
                             <th class="column-title">Código </th>
-                            <th class="column-title">Nome </th>
-                            <th class="column-title">Rua </th>
-                            <th class="column-title">Bairro </th>
-                            <th class="column-title">Cidade </th>
-                            <th class="column-title">Síndico </th>
-                            <th class="column-title">Telefone </th>
+                            <th class="column-title">Cliente </th>
+                            <th class="column-title">Condomínio </th>
+                            <th class="column-title">Apt </th>
+                            <th class="column-title">Data </th>
                             <th class="column-title">Entregador </th>
-                            <th class="column-title no-link last"><span class="nobr"></span>
-                            </th>
-                            <th class="bulk-actions" colspan="7">
-                              <a class="antoo" style="color:#fff; font-weight:500;">Bulk Actions ( <span class="action-cnt"> </span> ) <i class="fa fa-chevron-down"></i></a>
-                            </th>
                           </tr>
                         </thead>
 
                         <tbody>
                         <?php
-                          $result = mysqli_query($mysqli, $sql);
+                          $sqlRota = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qtd_10l, pedido.troco, DATE_FORMAT(pedido.data_hora, '%d/%m/%Y') as data_hora, pedido.status, condominio.nome as nome_condominio, usuario_app.nome as nome_cliente, usuario_app.apt, 
+                                  condominio.rua, condominio.numero, condominio.bairro, condominio.cep, condominio.cidade, condominio.uf,
+                                  condominio.referencia, condominio.nome_sindico, condominio.telefone, entregador.nome as nome_entregador
+                                    FROM pedido, condominio, usuario_app, entregador
+                                    WHERE usuario_app.condominio_id = condominio.id_condominio
+                                    AND usuario_app.id_usuario_app = pedido.id_usuario_app
+                                    AND condominio.id_entregador = entregador.id_entregador
+                                    AND entregador.id_entregador = ".$_GET["id_entregador"]. "
+                                    AND pedido.status = 'P' 
+                                    ORDER BY condominio.nome ASC, pedido.id_pedido DESC ";
+
+                          $result = mysqli_query($mysqli, $sqlRota);
                           $i = 0;
 
                           while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
@@ -145,15 +168,12 @@ $sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qt
                             }
 
                             echo '<tr class="'.$class.'">
-                                <td class=" ">'.($row["id_condominio"] * 1000).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["nome"])).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["rua"])).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["bairro"])).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["cidade"])).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["nome_sindico"])).'</td>
-                                <td class=" ">'.utf8_encode(utf8_decode($row["telefone"])).'</td>
+                                <td class=" ">'.$row["id_pedido"].'</td>
+                                <td class=" ">'.utf8_encode(utf8_decode($row["nome_cliente"])).'</td>
+                                <td class=" ">'.utf8_encode(utf8_decode($row["nome_condominio"])).'</td>
+                                <td class=" ">'.utf8_encode(utf8_decode($row["apt"])).'</td>
+                                <td class=" ">'.utf8_encode(utf8_decode($row["data_hora"])).'</td>
                                 <td class=" ">'.utf8_encode(utf8_decode($row["nome_entregador"])).'</td>
-                                <td class=" last"><a href="condominio.php?id='.$row["id_condominio"].'">Editar</a>
                               </tr>';
                             
                             $i++;

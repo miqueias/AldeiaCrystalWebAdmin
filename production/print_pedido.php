@@ -22,7 +22,7 @@ include 'php/connection.php';
 </script>
 </head>
 <body>
-<button onclick="printer()">Print this page</button>
+<button onclick="printer()">Imprimir esta página</button>
 
 <?php
 
