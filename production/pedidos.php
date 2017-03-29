@@ -1,6 +1,7 @@
 <?php 
 ini_set('display_errors', 0);
 include 'php/session.php';
+include 'php/connection.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -101,135 +102,56 @@ include 'php/session.php';
                           <th>Condóminio</th>
                           <th>Apt</th>
                           <th>Cliente</th>
-                          <th>Produto</th>
+                          <td>5L</td>
+                          <td>10L</td>
                           <th>Status</th>
-                          <th>Ped. Entregue</th>
-                          <th>Imprimir</th>
+                          <th></th>
+                          <th></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>0001</td>
-                          <td>04/08/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>202</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>00012</td>
-                          <td>09/10/2017</td>
-                          <td>Santo e Silva</td>
-                          <td>404</td>
-                          <td>Marcos Julio</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0003</td>
-                          <td>05/11/2017</td>
-                          <td>Drummond de Andrade</td>
-                          <td>345</td>
-                          <td>Guilerme Costa</td>
-                          <td>Crystal 10L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0004</td>
-                          <td>25/12/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>282</td>
-                          <td>Maria Conceição</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0005</td>
-                          <td>15/01/2017</td>
-                          <td>Clarita</td>
-                          <td>109</td>
-                          <td>Felipe Seabra</td>
-                          <td>Crystal 10L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0006</td>
-                          <td>16/10/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>765</td>
-                          <td>Camila Araujo</td>
-                          <td>Crystal 10L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0007</td>
-                          <td>09/11/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>876</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0008</td>
-                          <td>25/02/2017</td>
-                          <td>Rio Mar Trade Center</td>
-                          <td>987</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0009</td>
-                          <td>22/03/2017</td>
-                          <td>Canavial</td>
-                          <td>224</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0009</td>
-                          <td>05/10/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>321</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        <tr>
-                          <td>0010</td>
-                          <td>05/10/2017</td>
-                          <td>Palmeiras da Silva</td>
-                          <td>202</td>
-                          <td>Manuel da Costa</td>
-                          <td>Crystal 5L</td>
-                          <td>Pendente</td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_ok.gif"></a></center></td>
-                          <td class=" last"><a href="#"><center><img src="images/icon_print.png"></a></center></td>
-                        </tr>
-                        </tr>
+                        <?php
+
+                          $sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qtd_10l, pedido.troco, DATE_FORMAT(pedido.data_hora, '%d/%m/%Y') as data_hora, pedido.status, condominio.nome as nome_condominio, usuario_app.nome as nome_cliente, usuario_app.apt
+                                  FROM pedido, condominio, usuario_app
+                                  WHERE usuario_app.condominio_id = condominio.id_condominio
+                                  AND usuario_app.id_usuario_app = pedido.id_usuario_app
+                                  ORDER BY pedido.id_pedido DESC";
+
+                          $result = mysqli_query($mysqli, $sql);
+                          $i = 0;
+
+                          while ($row = mysqli_fetch_array($result, MYSQLI_BOTH)) {
+
+                            if ($i % 2 == 0) {
+                              $class = "even pointe";
+                            } else {
+                              $class = "odd pointe";
+                            }
+
+                            if ($row["status"] == "E") {
+                              $status = "Entregue";
+                              $link = "";
+                            } else {
+                              $status = "Aberto";
+                              $link = '<a href="php/facade.php?a=pedido_entregue&id='.$row["id_pedido"].'"><center><img src="images/icon_ok.gif"></center></a>';
+                            }
+
+                            echo '<tr '.$class.'>
+                              <td>'.$row["id_pedido"].'</td>
+                              <td>'.$row["data_hora"].'</td>
+                              <td>'.$row["nome_condominio"].'</td>
+                              <td>'.$row["apt"].'</td>
+                              <td>'.$row["nome_cliente"].'</td>
+                              <td>'.$row["qtd_5l"].'</td>
+                              <td>'.$row["qtd_10l"].'</td>
+                              <td>'.$status.'</td>
+                              <td class=" last">'.$link.'</td>
+                              <td class=" last"><a href="print_pedido.php?id='.$row["id_pedido"].'" target="_blank"><center><img src="images/icon_print.png"></a></center></td>
+                            </tr>';
+                          }
+
+                        ?>
                       </tbody>
                     </table>
                   </div>

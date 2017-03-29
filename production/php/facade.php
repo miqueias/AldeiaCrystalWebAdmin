@@ -262,6 +262,14 @@ switch ($action) {
 			$result = mysqli_query($mysqli, $sql);
 			echo "<script>alert('Dados alterados com sucesso!');window.location.href='../configuracoes.php';</script>";
 			break;
+
+		case 'pedido_entregue':
+			$sql = "UPDATE pedido 
+					SET status = 'E' 
+					WHERE id_pedido = ". $_GET["id"];
+					$result = mysqli_query($mysqli, $sql);
+			echo "<script>alert('Status do pedido alterado com sucesso!');window.location.href='../pedidos.php';</script>";
+			break;
 	default:
 		# code...
 		break;

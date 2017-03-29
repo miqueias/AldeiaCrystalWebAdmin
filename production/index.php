@@ -46,6 +46,23 @@ $sql = "SELECT * FROM pedido WHERE MONTH(data_hora) = MONTH(NOW()) AND status = 
 $result = mysqli_query($mysqli, $sql);
 $pedidosDez = mysqli_num_rows($result);
 
+$sql = "SELECT COUNT(condominio.id_condominio) as count, condominio.id_condominio, condominio.nome FROM pedido, condominio, usuario_app
+        WHERE pedido.id_usuario_app = usuario_app.id_usuario_app
+        AND usuario_app.condominio_id = condominio.id_condominio
+        AND MONTH(pedido.data_hora) = MONTH(NOW()) 
+        AND pedido.status = 'E'
+        GROUP BY condominio.id_condominio 
+        LIMIT 5";
+$rsEntregasCondominio = mysqli_query($mysqli, $sql);
+
+$sql = "SELECT COUNT(pedido.id_pedido) as qtd, DAY(pedido.data_hora) AS dia 
+        FROM pedido 
+        WHERE pedido.status = 'E'
+        AND MONTH(pedido.data_hora) = MONTH(NOW()) 
+        GROUP BY pedido.data_hora 
+        ORDER BY pedido.data_hora ASC";
+$rsEntregasDiaDia = mysqli_query($mysqli, $sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -76,6 +93,216 @@ $pedidosDez = mysqli_num_rows($result);
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Condomínio');
+        data.addColumn('number', 'Entregas');
+        data.addRows([
+        <?php 
+          $i = 0;
+          $total = mysqli_num_rows($rsEntregasCondominio);
+          while ($row = mysqli_fetch_array($rsEntregasCondominio, MYSQLI_BOTH)) {
+
+            $item = "['".$row['nome']."', ".$row['count']."]";
+
+            $i++;
+
+            if ($i < $total) {
+              $itemAux = $item . ",";
+            } else {
+              $itemAux = $itemAux . $item;
+            }
+
+          }
+
+          echo $itemAux;
+
+          ?>
+          //['Mushrooms', 3],
+          //['Onions', 1],
+          //['Olives', 1],
+          //['Zucchini', 1],
+          //['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = { 'title':'Entregas por Condomínio',
+                        'width':300,
+                        'height':300,
+                        is3D: true, legend:{position:'none'}};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Dia', 'Entregas'],
+          <?php 
+            $_0 = 0;
+            $_1 = 0;
+            $_2 = 0;
+            $_3 = 0;
+            $_4 = 0;
+            $_5 = 0;
+            $_6 = 0;
+            $_7 = 0;
+            $_8 = 0;
+            $_9 = 0;
+            $_10 = 0;
+            $_11 = 0;
+            $_12 = 0;
+            $_13 = 0;
+            $_14 = 0;
+            $_15 = 0;
+            $_16 = 0;
+            $_17 = 0;
+            $_18 = 0;
+            $_19 = 0;
+            $_20 = 0;
+            $_21 = 0;
+            $_22 = 0;
+            $_23 = 0;
+            $_24 = 0;
+            $_25 = 0;
+            $_26 = 0;
+            $_27 = 0;
+            $_28 = 0;
+            $_29 = 0;
+            $_30 = 0;
+            $_31 = 0;
+            while ($row = mysqli_fetch_array($rsEntregasDiaDia, MYSQLI_BOTH)) {
+
+              if ($row["dia"] == 1) {
+                $_1 = $row["qtd"];
+              } elseif ($row["dia"] == 2) {
+                $_2 = $row["qtd"];
+              } elseif ($row["dia"] == 3) {
+                $_3 = $row["qtd"];
+              } elseif ($row["dia"] == 4) {
+                $_4 = $row["qtd"];
+              } elseif ($row["dia"] == 5) {
+                $_5 = $row["qtd"];
+              } elseif ($row["dia"] == 6) {
+                $_6 = $row["qtd"];
+              } elseif ($row["dia"] == 7) {
+                $_7 = $row["qtd"];
+              } elseif ($row["dia"] == 8) {
+                $_8 = $row["qtd"];
+              } elseif ($row["dia"] == 9) {
+                $_9 = $row["qtd"];
+              } elseif ($row["dia"] == 10) {
+                $_10 = $row["qtd"];
+              } elseif ($row["dia"] == 11) {
+                $_11 = $row["qtd"];
+              } elseif ($row["dia"] == 12) {
+                $_12 = $row["qtd"];
+              } elseif ($row["dia"] == 13) {
+                $_13 = $row["qtd"];
+              } elseif ($row["dia"] == 14) {
+                $_14 = $row["qtd"];
+              } elseif ($row["dia"] == 15) {
+                $_15 = $row["qtd"];
+              } elseif ($row["dia"] == 16) {
+                $_16 = $row["qtd"];
+              } elseif ($row["dia"] == 17) {
+                $_17 = $row["qtd"];
+              } elseif ($row["dia"] == 18) {
+                $_18 = $row["qtd"];
+              } elseif ($row["dia"] == 19) {
+                $_19 = $row["qtd"];
+              } elseif ($row["dia"] == 20) {
+                $_20 = $row["qtd"];
+              } elseif ($row["dia"] == 21) {
+                $_21 = $row["qtd"];
+              } elseif ($row["dia"] == 22) {
+                $_22 = $row["qtd"];
+              } elseif ($row["dia"] == 23) {
+                $_23 = $row["qtd"];
+              } elseif ($row["dia"] == 24) {
+                $_24 = $row["qtd"];
+              } elseif ($row["dia"] == 25) {
+                $_25 = $row["qtd"];
+              } elseif ($row["dia"] == 26) {
+                $_26 = $row["qtd"];
+              } elseif ($row["dia"] == 27) {
+                $_27 = $row["qtd"];
+              } elseif ($row["dia"] == 28) {
+                $_28 = $row["qtd"];
+              } elseif ($row["dia"] == 29) {
+                $_29 = $row["qtd"];
+              } elseif ($row["dia"] == 30) {
+                $_30 = $row["qtd"];
+              } elseif ($row["dia"] == 31) {
+                $_31 = $row["qtd"];
+              }
+            }
+
+            echo "['01',  $_1],
+            ['02',  $_2],
+            ['03',  $_3],
+            ['04',  $_4],
+            ['05',  $_5],
+            ['06',  $_6],
+            ['07',  $_7],
+            ['08',  $_8],
+            ['09',  $_9],
+            ['10',  $_10],
+            ['11',  $_11],
+            ['12',  $_12],
+            ['13',  $_13],
+            ['14',  $_14],
+            ['15',  $_15],
+            ['16',  $_16],
+            ['17',  $_17],
+            ['18',  $_18],
+            ['19',  $_19],
+            ['20',  $_20],
+            ['21',  $_21],
+            ['22',  $_22],
+            ['23',  $_23],
+            ['24',  $_24],
+            ['25',  $_25],
+            ['26',  $_26],
+            ['27',  $_27],
+            ['28',  $_28],
+            ['29',  $_29],
+            ['30',  $_30],
+            ['31',  $_31]";
+          ?>
+        ]);
+
+        var options = {
+          
+          hAxis: {title: 'dia do mês',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div_line'));
+        chart.draw(data, options);
+      }
+    </script>
   </head>
 
   <body class="nav-md">
@@ -115,7 +342,7 @@ $pedidosDez = mysqli_num_rows($result);
               <div class="count green"><?php echo $contUsuarioApp; ?></div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de Pedidos</span>
+              <span class="count_top"><i class="fa fa-user"></i> Total de Pedidos Em Aberto</span>
               <div class="count"><?php echo $pedidosAberto;?></div>
               <span class="count_bottom">Mês de <?php mesPorExtenso(); ?></span>
             </div>
@@ -147,12 +374,13 @@ $pedidosDez = mysqli_num_rows($result);
 
                 <div class="row x_title">
                   <div class="col-md-6">
-                    <h3>Pedidos na Semana <small></small></h3>
+                    <h3>Entregas por Dia <small>Mês de <?php echo mesPorExtenso(); ?></small></h3>
                   </div>
                 </div>
 
                 <div class="col-md-9 col-sm-9 col-xs-12">
-                  <div id="chart_plot_01" class="demo-placeholder"></div>
+                  <!--<div id="chart_plot_01" class="demo-placeholder"></div>-->
+                  <div id="chart_div_line" style="width: 900px;" ></div>
                 </div>
                 
                 <div class="clearfix"></div>
@@ -217,60 +445,7 @@ $pedidosDez = mysqli_num_rows($result);
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                  <table class="" style="width:100%">
-                    <tr>
-                      <th style="width:37%;">
-                        <p>Vendas por Condomínio</p>
-                      </th>
-                      <th>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                          <p class=""></p>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                          <p class=""></p>
-                        </div>
-                      </th>
-                    </tr>
-                    <tr>
-                      <td>
-                        <canvas class="canvasDoughnut" height="140" width="140" style="margin: 15px 10px 10px 0"></canvas>
-                      </td>
-                      <td>
-                        <table class="tile_info">
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square blue"></i>Cond. A </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square green"></i>Cond. B </p>
-                            </td>
-                            <td>10%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square purple"></i>Cond. C </p>
-                            </td>
-                            <td>20%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square aero"></i>Cond. D </p>
-                            </td>
-                            <td>15%</td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p><i class="fa fa-square red"></i>Cond. E </p>
-                            </td>
-                            <td>30%</td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                  <div id="chart_div" wid></div>  
                 </div>
               </div>
             </div>

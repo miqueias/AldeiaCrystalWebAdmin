@@ -65,7 +65,7 @@ $err = $_GET["error"];
 
                 <div>
                   
-                  <p>©2017 Desenvolvido por Recife Sites | Hospedado em Nubo Host</p>
+                  <p>©2017 Desenvolvido por Recife Sites | Hospedado na Nubo Host</p>
                 </div>
               </div>
             </form>
