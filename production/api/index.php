@@ -6,7 +6,7 @@ require '../../vendor/autoload.php';
 
 $app = new \Slim\App(array('templates.path' => 'templates'));
 
-$app->get('/listarpedidos', function() {
+$app->get('/pedidos', function() {
 	getAllPedidos();
 });
 
@@ -119,6 +119,7 @@ condominio.referencia, condominio.nome_sindico, condominio.telefone, condominio.
 function getNoticias() {
 	$sql = "SELECT id_noticia, titulo, descricao, status 
           	FROM noticia 
+          	WHERE status = 'A' 
           	ORDER BY id_noticia DESC 
           	LIMIT 20";
   	$stmt = getConn()->query($sql);
