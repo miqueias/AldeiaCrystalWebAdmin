@@ -14,7 +14,7 @@
                 </li>
                 <li><a><i class="fa fa-bar-chart"></i> Relatórios <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu">
-                      <li><a href="#">Financeiro</a></li>
+                      <li><a href="rel_financeiro.php">Financeiro</a></li>
                       <li><a href="rel_rota.php">Rota de Entrega</a></li>
                       <li><a href="#">Pedidos por Condomínio</a></li>
                       <li><a href="#">Pedidos por Usuário</a></li>
