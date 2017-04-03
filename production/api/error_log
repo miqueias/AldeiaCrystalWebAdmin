@@ -1,0 +1,44 @@
+[02-Apr-2017 21:45:30 UTC] Slim Application Error:
+Type: PDOException
+Code: 1045
+Message: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+File: /home/aldeiacrystalcom/public_html/dev/api/index.php
+Line: 56
+Trace: #0 /home/aldeiacrystalcom/public_html/dev/api/index.php(56): PDO->__construct('mysql:host=loca...', 'root', 'root', Array)
+#1 /home/aldeiacrystalcom/public_html/dev/api/index.php(68): getConn()
+#2 /home/aldeiacrystalcom/public_html/dev/api/index.php(10): getAllPedidos()
+#3 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Route.php(344): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#6 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Route.php(316): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(476): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(370): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(295): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#12 /home/aldeiacrystalcom/public_html/dev/api/index.php(131): Slim\App->run()
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+
+[02-Apr-2017 21:48:11 UTC] Slim Application Error:
+Type: PDOException
+Code: 1045
+Message: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+File: /home/aldeiacrystalcom/public_html/dev/api/index.php
+Line: 56
+Trace: #0 /home/aldeiacrystalcom/public_html/dev/api/index.php(56): PDO->__construct('mysql:host=loca...', 'root', 'root', Array)
+#1 /home/aldeiacrystalcom/public_html/dev/api/index.php(68): getConn()
+#2 /home/aldeiacrystalcom/public_html/dev/api/index.php(10): getAllPedidos()
+#3 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(41): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Route.php(344): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#6 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/Route.php(316): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(476): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(122): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(370): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /home/aldeiacrystalcom/public_html/vendor/slim/slim/Slim/App.php(295): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#12 /home/aldeiacrystalcom/public_html/dev/api/index.php(131): Slim\App->run()
+#13 {main}
+View in rendered output by enabling the "displayErrorDetails" setting.
+

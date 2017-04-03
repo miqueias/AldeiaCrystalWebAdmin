@@ -35,7 +35,15 @@ include 'php/connection.php';
       function printRota() {
         var idEntregador;
         //alert(idEntregador);
-        window.open("print_rota.php?id_entregador="+<?php echo $_GET["id_entregador"]; ?>, '_blank');
+        <?php
+         if($_GET["id_entregador"] == "") {
+          $idEntregadorJs = 0;
+         } else {
+          $idEntregadorJs = $_GET["id_entregador"];
+         }
+
+         ?>
+        window.open("print_rota.php?id_entregador="+<?php echo $idEntregadorJs; ?>, '_blank');
       }
 
     </script>

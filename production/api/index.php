@@ -52,7 +52,10 @@ $app->post('/pedidos/novo', function(Request $request, Response $response, $args
 });
 
 function getConn() {
-	return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
+	
+	/*return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
+			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));*/
+	return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 }
 

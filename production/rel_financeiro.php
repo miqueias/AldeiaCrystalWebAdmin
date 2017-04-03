@@ -25,17 +25,27 @@ include 'php/connection.php';
     <link href="../build/css/custom.min.css" rel="stylesheet">
 
     <script type="text/javascript">
-      function showRota() {
-        var idEntregador;
-        idEntregador = $("#entregador").val();
-        //alert(idEntregador);
-        window.location.href = "rel_rota.php?id_entregador="+idEntregador;
+      function showFinanceiro() {
+        
+        var mes = $("#mes").val();
+        var ano = $("#ano").val();
+        window.location.href = "rel_financeiro.php?mes="+mes+"&ano="+ano;
       }
 
-      function printRota() {
+      function printFinanceiro() {
         var idEntregador;
         //alert(idEntregador);
-        window.open("print_rota.php?id_entregador="+<?php echo $_GET["id_entregador"]; ?>, '_blank');
+        <?php
+         if($_GET["mes"] == "" || $_GET["ano"] == "") {
+          $mesJs = 0;
+          $anoJs = 0;
+         } else {
+          $mesJs = $_GET["mes"];
+          $anoJs = $_GET["ano"];
+         }
+
+         ?>
+        window.open("print_financeiro.php?mes="+<?php echo $mesJs; ?>+"&ano="+<?php echo $anoJs;?>, '_blank');
       }
 
     </script>
@@ -95,7 +105,7 @@ include 'php/connection.php';
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Período: </h2><br />   
-                        <select class="form-control" name="mes" id="entregador">
+                        <select class="form-control" name="mes" id="mes">
                           <option value="">-- Selecione o Mês --</option>
                           <option value="01">Janeiro</option>
                           <option value="02">Fevereiro</option>
@@ -112,7 +122,7 @@ include 'php/connection.php';
                             
                         </select>
                         <br />
-                        <select class="form-control" name="entregador" id="entregador">
+                        <select class="form-control" name="ano" id="ano">
                           <option value="">-- Selecione o Ano --</option>
                           <option value="2017">2017</option>
                           <option value="2018">2018</option>
@@ -130,8 +140,8 @@ include 'php/connection.php';
                           <option value="2030">2030</option>
                         </select>
                         <br />
-                        <button type="button" class="btn btn-primary" onclick="showRota();">Exibir Rota</button>
-                          <button id="send" type="button" class="btn btn-success" onclick="printRota();">Imprimir Rota</button>
+                        <button type="button" id="rel" class="btn btn-primary" onclick="showFinanceiro();">Exibir Relatório</button>
+                          <button id="send" type="button" class="btn btn-success" onclick="printFinanceiro();">Imprimir Relatório</button>
                     <div class="clearfix"></div>
                   </div>
                   
@@ -153,7 +163,6 @@ include 'php/connection.php';
                       <table class="table table-striped jambo_table bulk_action">
                         <thead>
                           <tr class="headings">
-                            
                             <th class="column-title">Código </th>
                             <th class="column-title">Cliente </th>
                             <th class="column-title">Condomínio </th>
@@ -174,6 +183,8 @@ include 'php/connection.php';
                                     WHERE usuario_app.id_usuario_app = pedido.id_usuario_app
                                     AND condominio.id_condominio = usuario_app.condominio_id
                                     AND pedido.status = 'E'
+                                    AND DATE_FORMAT(pedido.data_hora, '%m') = ".$_GET["mes"]."
+                                    AND DATE_FORMAT(pedido.data_hora, '%Y') = ".$_GET["ano"]."
                                     ORDER BY pedido.data_hora ASC, usuario_app.id_usuario_app ASC";
 
                           $result = mysqli_query($mysqli, $sqlRota);
