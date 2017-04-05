@@ -1,10 +1,16 @@
 <?php
-use \Psr\Http\Message\ServerRequestInterface as Request;
-use \Psr\Http\Message\ResponseInterface as Response;
-
+date_default_timezone_set('America/Sao_Paulo');
 require '../../vendor/autoload.php';
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
+use \Psr\Http\Message\ResponseInterface as Response;
+use Firebase\JWT\JWT;
+
+define('SECRET_KEY','aldeia_crystal');
+define('ALGORITHM','HS512');
+
 $app = new \Slim\App(array('templates.path' => 'templates'));
+//$app->config('debug', true);
 
 $app->get('/pedidos', function() {
 	getAllPedidos();
@@ -53,14 +59,14 @@ $app->post('/pedidos/novo', function(Request $request, Response $response, $args
 
 function getConn() {
 	
-	/*return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
-			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));*/
-	return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
+	return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	/*return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
+			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));*/
 }
 
 function getAllPedidos() {
-	$sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qtd_10l, pedido.troco, DATE_FORMAT(pedido.data_hora, '%d/%m/%Y') as data_hora, pedido.status, condominio.id_condominio, condominio.nome as nome_condominio, usuario_app.nome as nome_cliente, usuario_app.apt, 
+	$sql = "SELECT pedido.id_pedido, pedido.id_usuario_app, pedido.qtd_5l, pedido.qtd_10l, pedido.troco, DATE_FORMAT(pedido.data_hora, '%d/%m/%Y') as data_hora, pedido.status, condominio.id_condominio, condominio.nome as nome_condominio, usuario_app.codigo_acesso as token, usuario_app.nome as nome_cliente, usuario_app.apt, 
 		condominio.rua, condominio.numero, condominio.bairro, condominio.cep, condominio.cidade, condominio.uf,
 		condominio.referencia, condominio.nome_sindico, condominio.telefone, entregador.nome as nome_entregador
       FROM pedido, condominio, usuario_app, entregador
@@ -116,7 +122,46 @@ condominio.referencia, condominio.nome_sindico, condominio.telefone, condominio.
 
 	$stmt = getConn()->query($sql);
 	$usuario = $stmt->fetchAll(PDO::FETCH_OBJ);
-    echo json_encode($usuario);
+	//echo count($usuario);die;
+	if (count($usuario) > 0) {
+		
+		$tokenId    = base64_encode(mcrypt_create_iv(32));
+        $issuedAt   = time();
+        $notBefore  = $issuedAt + 10;  //Adding 10 seconds
+        $expire     = $notBefore + 7200; // Adding 60 seconds
+        $serverName = 'http://aldeiacrystal.com.br/'; /// set your domain name 
+
+			
+        /*
+         * Create the token as an array
+         */
+        $data = [
+            'iat'  => $issuedAt,         // Issued at: time when the token was generated
+            'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
+            'iss'  => $serverName,       // Issuer
+            'nbf'  => $notBefore,        // Not before
+            'exp'  => $expire,           // Expire
+            'data' => [                  // Data related to the logged user you can set your required data
+	    		'apt'   => $apt, // id from the users table
+	     		'condominio' => $id_condominio, //  name
+                      ]
+        ];
+      $secretKey = base64_decode(SECRET_KEY);
+      /// Here we will transform this array into JWT:
+      $jwt = JWT::encode(
+                $data, //Data to be encoded in the JWT
+                $secretKey, // The signing key
+                 ALGORITHM 
+               ); 
+     $unencodedArray = ['jwt' => $jwt];
+     $arr = array('status' => 'success', 'token' => $unencodedArray, 'usuario' => $usuario);
+     echo json_encode($arr);
+        
+	} else {
+		$arr = array('status' => 'error', 'msg' => 'Usuário não cadastrado!');
+		echo json_encode($arr);
+	} 
+    
 }
 
 function getNoticias() {
@@ -128,6 +173,11 @@ function getNoticias() {
   	$stmt = getConn()->query($sql);
 	$noticia = $stmt->fetchAll(PDO::FETCH_OBJ);
     echo json_encode($noticia);
+}
+
+function apiKey($session_uid) {
+	$key=md5(SITE_KEY.$session_uid);
+	return hash('sha256', $key.$_SERVER['REMOTE_ADDR']);
 }
 
 

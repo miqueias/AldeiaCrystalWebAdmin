@@ -1,6 +1,7 @@
 <?php
 ini_set('display_errors', 0);
 include 'connection.php';
+define("SITE_KEY", "aldeia_crystal");
 
 $action = $_GET["a"];
 
@@ -152,9 +153,19 @@ switch ($action) {
 		        $randomString .= $characters[rand(0, $charactersLength - 1)];
 		    }
 			$sql = "INSERT INTO usuario_app (nome, telefone_fixo, telefone_celular, apt, codigo_acesso, status, condominio_id) 
-					VALUES ('".$_POST["nome"]."', '".$_POST["telefone_fixo"]."', '".$_POST["telefone_celular"]."', '".$_POST["apt"]."', '".$randomString."', 'A', ".$_POST["condominio_id"].")";
+					VALUES ('".$_POST["nome"]."', '".$_POST["telefone_fixo"]."', '".$_POST["telefone_celular"]."', '".$_POST["apt"]."', '', 'A', ".$_POST["condominio_id"].")";
 
 			$result = mysqli_query($mysqli, $sql);
+			$idUsuarioApp = mysqli_insert_id($mysqli);
+			$key = md5(SITE_KEY.$id);
+			$hash = hash('sha256', $key.$_SERVER['REMOTE_ADDR']);
+			$apiKey = $hash;
+			
+			$sql = "UPDATE usuario_app 
+					SET codigo_acesso = '".$apiKey."' 
+					WHERE id_usuario_app = ".$idUsuarioApp;
+			$result = mysqli_query($mysqli, $sql);
+
 			echo "<script>alert('Cadastro realizado com sucesso!');window.location.href='../usuarioapp.php';</script>";
 			break;
 
