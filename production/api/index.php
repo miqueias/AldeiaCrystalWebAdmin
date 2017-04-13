@@ -7,29 +7,33 @@ use \Psr\Http\Message\ResponseInterface as Response;
 use Firebase\JWT\JWT;
 
 define('SECRET_KEY','aldeia_crystal');
-define('ALGORITHM','HS512');
+define('ALGORITHM','HS256');
 
-$app = new \Slim\App(array('templates.path' => 'templates'));
-//$app->config('debug', true);
+$app = new \Slim\App(array('templates.path' => 'templates', 'settings' => ['displayErrorDetails' => true]));
+//$app = new \Slim\App(array('templates.path' => 'templates'));
 
 $app->get('/pedidos', function() {
 	getAllPedidos();
 });
 
 $app->get('/pedidos/{id}', function(Request $request, Response $response, $args){
+	auth($request);
 	$idPedido = (int)$args['id'];
 	getPedidos($idPedido);
 });
 
 $app->get('/pedidos/usuario/{id}', function(Request $request, Response $response, $args){
+	auth($request);
 	$idUsuario = (int)$args['id'];
 	getPedidosByUsuario($idUsuario);
 });
 
 $app->get('/usuario/{apt}/{id_condominio}', function(Request $request, Response $response, $args){
+	auth($request);
 	$apt = $args['apt'];
 	$idCondominio = (int)$args['id_condominio'];
 	login($apt, $idCondominio);
+	//validateJWT($request, $response);
 });
 
 $app->get('/noticias', function() {
@@ -37,6 +41,7 @@ $app->get('/noticias', function() {
 });
 
 $app->post('/pedidos/novo', function(Request $request, Response $response, $args) {
+	auth($request);
 	$data = $request->getParsedBody();
 	
 	$stmt = getConn()->prepare("INSERT INTO pedido (id_usuario_app, qtd_5l, qtd_10l, troco, data_hora, status) 							VALUES (:id_usuario_app, :qtd_5l, :qtd_10l, :troco, NOW(), 'A')");
@@ -59,10 +64,10 @@ $app->post('/pedidos/novo', function(Request $request, Response $response, $args
 
 function getConn() {
 	
-	return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
+	//return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
+	//		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-	/*return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
-			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));*/
 }
 
 function getAllPedidos() {
@@ -75,8 +80,8 @@ function getAllPedidos() {
       AND condominio.id_entregador = entregador.id_entregador";
 
 	$stmt = getConn()->query($sql);
-	$categorias = $stmt->fetchAll(PDO::FETCH_OBJ);
-    echo json_encode($categorias);
+	$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+    echo json_encode($result);
 }
 
 function getPedidos($id) {
@@ -90,8 +95,8 @@ function getPedidos($id) {
       AND pedido.id_pedido = ".$id;
 
 	$stmt = getConn()->query($sql);
-	$categorias = $stmt->fetchAll(PDO::FETCH_OBJ);
-    echo json_encode($categorias);
+	$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+    echo json_encode($result);
 }
 
 function getPedidosByUsuario($id) {
@@ -107,8 +112,8 @@ function getPedidosByUsuario($id) {
       LIMIT 50";
 
 	$stmt = getConn()->query($sql);
-	$categorias = $stmt->fetchAll(PDO::FETCH_OBJ);
-    echo json_encode($categorias, JSON_HEX_APOS);
+	$result = $stmt->fetchAll(PDO::FETCH_OBJ);
+    echo json_encode($result);
 }
 
 function login($apt, $id_condominio) {
@@ -146,17 +151,16 @@ condominio.referencia, condominio.nome_sindico, condominio.telefone, condominio.
 	     		'condominio' => $id_condominio, //  name
                       ]
         ];
-      $secretKey = base64_decode(SECRET_KEY);
+      $secretKey = SECRET_KEY;
       /// Here we will transform this array into JWT:
       $jwt = JWT::encode(
                 $data, //Data to be encoded in the JWT
-                $secretKey, // The signing key
-                 ALGORITHM 
-               ); 
+                $secretKey,
+                ALGORITHM 
+                ); 
      $unencodedArray = ['jwt' => $jwt];
      $arr = array('status' => 'success', 'token' => $unencodedArray, 'usuario' => $usuario);
      echo json_encode($arr);
-        
 	} else {
 		$arr = array('status' => 'error', 'msg' => 'Usuário não cadastrado!');
 		echo json_encode($arr);
@@ -175,10 +179,22 @@ function getNoticias() {
     echo json_encode($noticia);
 }
 
-function apiKey($session_uid) {
-	$key=md5(SITE_KEY.$session_uid);
-	return hash('sha256', $key.$_SERVER['REMOTE_ADDR']);
+function auth($request) {
+	$authorization = $request->getHeaderLine("Authorization");
+	
+	if (trim($authorization) == "") {
+		$arr = array('status' => 'error', 'msg' => 'Acesso negado!', 'detail' => 'Token não informado');
+		echo json_encode($arr);
+		die;
+	} else {
+		try {
+			JWT::decode($authorization, SECRET_KEY, array('HS256'));
+		} catch (Exception $e) {
+			$arr = array('status' => 'error', 'msg' => 'Acesso negado!', 'detail' => 'Acesso não autorizado');
+			echo json_encode($arr);
+			die;
+		}
+	}
 }
-
 
 $app->run();

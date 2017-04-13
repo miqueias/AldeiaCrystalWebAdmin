@@ -16,8 +16,8 @@
                   <ul class="nav child_menu">
                       <li><a href="rel_financeiro.php">Financeiro</a></li>
                       <li><a href="rel_rota.php">Rota de Entrega</a></li>
-                      <li><a href="#">Pedidos por Condomínio</a></li>
-                      <li><a href="#">Pedidos por Usuário</a></li>
+                      <!--<li><a href="#">Pedidos por Condomínio</a></li>
+                      <li><a href="#">Pedidos por Usuário</a></li>-->
                     </ul>
                 </li>
                 <li><a href="configuracoes.php"><i class="fa fa-gears"></i> Confirurações </a></li>

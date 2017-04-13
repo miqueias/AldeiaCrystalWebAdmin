@@ -2,6 +2,7 @@
     "require": {
         "slim/slim": "^3.8",
         "lcobucci/jwt" : "3.2",
-        "firebase/php-jwt": "^4.0"
+        "firebase/php-jwt": "^4.0",
+        "phpmailer/phpmailer": "^5.2"
     }
 }

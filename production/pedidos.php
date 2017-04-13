@@ -99,7 +99,7 @@ include 'php/connection.php';
                         <tr>
                           <th>Código</th>
                           <th>Data</th>
-                          <th>Condóminio</th>
+                          <th>Condomínio</th>
                           <th>Apt</th>
                           <th>Cliente</th>
                           <td>5L</td>

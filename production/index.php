@@ -342,7 +342,7 @@ $rsEntregasDiaDia = mysqli_query($mysqli, $sql);
               <div class="count green"><?php echo $contUsuarioApp; ?></div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de Pedidos Em Aberto</span>
+              <span class="count_top"><i class="fa fa-user"></i> Pedidos Em Aberto</span>
               <div class="count"><?php echo $pedidosAberto;?></div>
               <span class="count_bottom">Mês de <?php mesPorExtenso(); ?></span>
             </div>
@@ -352,7 +352,7 @@ $rsEntregasDiaDia = mysqli_query($mysqli, $sql);
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
             </div>-->
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"><i class="fa fa-user"></i> Total de Entregas</span>
+              <span class="count_top"><i class="fa fa-user"></i> Entregas</span>
               <div class="count green"><?php echo $pedidosEntrege;?></div>
               <span class="count_bottom">Mês de <?php mesPorExtenso(); ?></span>
             </div>
