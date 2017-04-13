@@ -12,7 +12,8 @@ define('ALGORITHM','HS256');
 $app = new \Slim\App(array('templates.path' => 'templates', 'settings' => ['displayErrorDetails' => true]));
 //$app = new \Slim\App(array('templates.path' => 'templates'));
 
-$app->get('/pedidos', function() {
+$app->get('/pedidos', function(Request $request, Response $response, $args) {
+	auth($request);
 	getAllPedidos();
 });
 
@@ -29,14 +30,15 @@ $app->get('/pedidos/usuario/{id}', function(Request $request, Response $response
 });
 
 $app->get('/usuario/{apt}/{id_condominio}', function(Request $request, Response $response, $args){
-	auth($request);
+	//auth($request);
 	$apt = $args['apt'];
 	$idCondominio = (int)$args['id_condominio'];
 	login($apt, $idCondominio);
 	//validateJWT($request, $response);
 });
 
-$app->get('/noticias', function() {
+$app->get('/noticias', function(Request $request, Response $response, $args) {
+	auth($request);
 	getNoticias();
 });
 
@@ -64,10 +66,10 @@ $app->post('/pedidos/novo', function(Request $request, Response $response, $args
 
 function getConn() {
 	
-	//return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
-	//		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
-	return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
+	return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	//return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
+	//		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 }
 
 function getAllPedidos() {
