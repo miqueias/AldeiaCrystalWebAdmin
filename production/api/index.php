@@ -12,6 +12,15 @@ define('ALGORITHM','HS256');
 $app = new \Slim\App(array('templates.path' => 'templates', 'settings' => ['displayErrorDetails' => true]));
 //$app = new \Slim\App(array('templates.path' => 'templates'));
 
+$app->get('/', function(Request $request, Response $response, $args) {
+	echo "Api Manager Aldeia Crystal";
+});
+
+$app->post('/login', function(Request $request, Response $response, $args) {
+	$data = $request->getParsedBody();
+	return login($data[apt],$data[cod_condominio]);
+});
+
 $app->get('/pedidos', function(Request $request, Response $response, $args) {
 	auth($request);
 	getAllPedidos();
