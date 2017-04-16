@@ -185,7 +185,7 @@ function getNoticias() {
 }
 
 function auth($request) {
-	$authorization = $request->getHeaderLine("Authorization");
+	$authorization = $request->getHeaderLine("Auth");
 	
 	if (trim($authorization) == "") {
 		return array('status' => 500, 'message' => 'Token não informado');
