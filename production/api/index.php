@@ -14,6 +14,14 @@ define('ALGORITHM','HS256');
 $app = new \Slim\App(array('templates.path' => 'templates', 'settings' => ['displayErrorDetails' => true]));
 //$app = new \Slim\App(array('templates.path' => 'templates'));
 
+$app->add(function ($req, $res, $next) {
+    $response = $next($req, $res);
+    return $response
+            ->withHeader('Access-Control-Allow-Origin', '*')
+            ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+});
+
 $app->get('/', function(Request $request, Response $response, $args) {
 	return $response->withJson(['status' => 200, 'message' => "Api Manager Aldeia Crystal"]);
 });
@@ -70,7 +78,11 @@ $app->post('/pedido/novo', function(Request $request, Response $response, $args)
 
 function getConn() {
 	
-	//return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', '',
+
+	return new PDO('mysql:host=localhost;dbname=aldeia_crystal', 'root', 'root',
+			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
+	//return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
+
 	//		array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 	return new PDO('mysql:host=localhost;dbname=aldeiacr_dev', 'aldeiacr_dev', 'voanubo2016',
 			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
